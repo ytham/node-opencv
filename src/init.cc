@@ -7,6 +7,9 @@
 #include "CamShift.h"
 #include "HighGUI.h"
 #include "FaceRecognizer.h"
+#include "KeyPoint.h"
+#include "Features2D.h"
+
 
 
 extern "C" void
@@ -20,6 +23,8 @@ init(Handle<Object> target) {
     Contour::Init(target);
 	  TrackedObject::Init(target);
     NamedWindow::Init(target);
+    KeyPoint::Init(target);
+    SURF::Init(target);
 
    #if CV_MAJOR_VERSION >= 2 && CV_MINOR_VERSION >=4
      FaceRecognizerWrap::Init(target);

@@ -12,6 +12,8 @@
         , "src/CamShift.cc"
         , "src/HighGUI.cc"
         , "src/FaceRecognizer.cc"
+        , "src/KeyPoint.cc"
+        , "src/Features2D.cc"
         ]
       , 'libraries': [
           '<!@(pkg-config --libs opencv)'

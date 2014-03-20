@@ -1,6 +1,7 @@
 #include "OpenCV.h"
 #include "Point.h"
 #include "Matrix.h"
+#include "FeatureMatcher.h"
 #include "CascadeClassifierWrap.h"
 #include "VideoCaptureWrap.h"
 #include "Contours.h"
@@ -15,6 +16,7 @@ init(Handle<Object> target) {
     OpenCV::Init(target);
     Point::Init(target);
     Matrix::Init(target);
+    FeatureMatcher::Init(target);
     CascadeClassifierWrap::Init(target);
     VideoCaptureWrap::Init(target);
     Contour::Init(target);

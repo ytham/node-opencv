@@ -5,6 +5,7 @@
           "src/init.cc"
         , "src/Matrix.cc"
         , "src/OpenCV.cc"
+        , "src/FeatureMatcher.cc"
         , "src/CascadeClassifierWrap.cc"
         , "src/Contours.cc"
         , "src/Point.cc"

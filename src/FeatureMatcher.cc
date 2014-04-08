@@ -178,7 +178,7 @@ FeatureMatcher::TrainSVM(const Arguments &args) {
     samples.convertTo(samples_32f, CV_32F);
 
     // Set the termination criteria and params
-    cv::TermCriteria svmtc = cv::TermCriteria(2, 1000, 0.00001);  // CV_TERMCRIT_EPS = 2
+    cv::TermCriteria svmtc = cv::TermCriteria(2, 1000, 1.19209290e-7F);  // CV_TERMCRIT_EPS = 2
     CvSVMParams::CvSVMParams params = CvSVMParams::CvSVMParams(CvSVM::C_SVC, CvSVM::RBF, 10.0, 8.0, 1.0, 10.0, 0.5, 0.1, NULL, svmtc);
 
     // Train and save the classifier

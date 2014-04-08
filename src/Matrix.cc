@@ -97,6 +97,7 @@ Matrix::Init(Handle<Object> target) {
   NODE_SET_PROTOTYPE_METHOD(constructor, "minMaxLoc", MinMaxLoc);
 
   NODE_SET_PROTOTYPE_METHOD(constructor, "pushBack", PushBack);
+  NODE_SET_PROTOTYPE_METHOD(constructor, "undistort", Undistort);
 
 	NODE_SET_METHOD(constructor, "Eye", Eye);
 
@@ -1650,4 +1651,29 @@ Matrix::PushBack(const v8::Arguments& args) {
   self->mat.push_back(m_input->mat);
 
   return scope.Close(args.This());
+}
+
+Handle<Value>
+Matrix::Undistort(const v8::Arguments &args) {
+  HandleScope scope;
+
+  Matrix *self = ObjectWrap::Unwrap<Matrix>(args.This());
+  Local<Object> out = Matrix::constructor->GetFunction()->NewInstance();
+  Matrix *m_out = ObjectWrap::Unwrap<Matrix>(out);
+  int rows = self->mat.rows;
+  int cols = self->mat.cols;
+  m_out->mat.create(rows, cols, CV_8UC3);
+
+  v8::String::Utf8Value filePath(args[0]->ToString());
+  std::string s_filePath = std::string(*filePath);
+
+  cv::Mat cameraMatrix, distCoeffs;
+  cv::FileStorage fs(s_filePath, cv::FileStorage::READ);
+  fs["Camera_Matrix"] >> cameraMatrix;
+  fs["Distortion_Coefficients"] >> distCoeffs;
+  fs.release();
+
+  cv::undistort(self->mat, m_out->mat, cameraMatrix, distCoeffs);
+
+  return scope.Close(out);
 }

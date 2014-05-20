@@ -1035,9 +1035,31 @@ Matrix::Dilate(const v8::Arguments& args) {
 	HandleScope scope;
 
 	Matrix *self = ObjectWrap::Unwrap<Matrix>(args.This());
-	int niters = args[0]->NumberValue();
+	//int niters = args[0]->NumberValue();
+  Local<Object> array = args[0]->ToObject();
+  Local<Value> x = array->Get(0);
+  Local<Value> y = array->Get(1);
+  if (!x->IsNumber() || !y->IsNumber()) {
+    return ThrowException(Exception::TypeError(String::New(
+        '"ksize must be an array of two values'
+      )));
+  }
+  cv::Size ksize = cv::Size(x->NumberValue() ,y->NumberValue());
 
-	cv::dilate(self->mat, self->mat, cv::Mat(), cv::Point(-1, -1), niters);
+  Local<Object> array = args[1]->ToObject();
+  Local<Value> x = array->Get(0);
+  Local<Value> y = array->Get(1);
+  if (!x->IsNumber() || !y->IsNumber()) {
+    return ThrowException(Exception::TypeError(String::New(
+        '"kpoint must be an array of two values'
+      )));
+  }
+  cv::Point kpoint = cv::Point(x->NumberValue() ,y->NumberValue());
+
+
+  cv::Mat structElem = cv::getStructuringElement(cv::MORPH_ELLIPSE, ksize, kpoint);
+
+	cv::dilate(self->mat, self->mat, structElem);
 
 	return scope.Close(v8::Null());
 }
@@ -1047,9 +1069,31 @@ Matrix::Erode(const v8::Arguments& args) {
     HandleScope scope;
 
     Matrix *self = ObjectWrap::Unwrap<Matrix>(args.This());
-    int niters = args[0]->NumberValue();
+    Local<Object> array = args[0]->ToObject();
+    Local<Value> x = array->Get(0);
+    Local<Value> y = array->Get(1);
+    if (!x->IsNumber() || !y->IsNumber()) {
+      return ThrowException(Exception::TypeError(String::New(
+          '"ksize must be an array of two values'
+        )));
+    }
+    cv::Size ksize = cv::Size(x->NumberValue() ,y->NumberValue());
 
-    cv::erode(self->mat, self->mat, cv::Mat(), cv::Point(-1, -1), niters);
+    Local<Object> array = args[1]->ToObject();
+    Local<Value> x = array->Get(0);
+    Local<Value> y = array->Get(1);
+    if (!x->IsNumber() || !y->IsNumber()) {
+      return ThrowException(Exception::TypeError(String::New(
+          '"kpoint must be an array of two values'
+        )));
+    }
+    cv::Point kpoint = cv::Point(x->NumberValue() ,y->NumberValue());
+
+
+    cv::Mat structElem = cv::getStructuringElement(cv::MORPH_ERODE, ksize, kpoint);
+
+
+    cv::erode(self->mat, self->mat, structElem);
 
     return scope.Close(v8::Null());
 }

@@ -606,7 +606,7 @@ Matrix::Rectangle(const Arguments& args) {
 		if(args[3]->IntegerValue())
 			thickness = args[3]->IntegerValue();
 
-		cv::rectangle(self->mat, cv::Point(x, y), cv::Point(width, height), color, thickness);
+		cv::rectangle(self->mat, cv::Point(x, y), cv::Point(x+width, y+height), color, thickness);
 	}
 
 	return scope.Close(v8::Null());
@@ -1036,25 +1036,25 @@ Matrix::Dilate(const v8::Arguments& args) {
 
 	Matrix *self = ObjectWrap::Unwrap<Matrix>(args.This());
 	//int niters = args[0]->NumberValue();
-  Local<Object> array = args[0]->ToObject();
-  Local<Value> x = array->Get(0);
-  Local<Value> y = array->Get(1);
-  if (!x->IsNumber() || !y->IsNumber()) {
+  Local<Object> array0 = args[0]->ToObject();
+  Local<Value> x0 = array0->Get(0);
+  Local<Value> y0 = array0->Get(1);
+  if (!x0->IsNumber() || !y0->IsNumber()) {
     return ThrowException(Exception::TypeError(String::New(
-        '"ksize must be an array of two values'
+        "'ksize' must be an array of two values"
       )));
   }
-  cv::Size ksize = cv::Size(x->NumberValue() ,y->NumberValue());
+  cv::Size ksize = cv::Size(x0->NumberValue(), y0->NumberValue());
 
-  Local<Object> array = args[1]->ToObject();
-  Local<Value> x = array->Get(0);
-  Local<Value> y = array->Get(1);
-  if (!x->IsNumber() || !y->IsNumber()) {
+  Local<Object> array1 = args[1]->ToObject();
+  Local<Value> x1 = array1->Get(0);
+  Local<Value> y1 = array1->Get(1);
+  if (!x1->IsNumber() || !y1->IsNumber()) {
     return ThrowException(Exception::TypeError(String::New(
-        '"kpoint must be an array of two values'
+        "'kpoint' must be an array of two values"
       )));
   }
-  cv::Point kpoint = cv::Point(x->NumberValue() ,y->NumberValue());
+  cv::Point kpoint = cv::Point(x1->NumberValue(), y1->NumberValue());
 
 
   cv::Mat structElem = cv::getStructuringElement(cv::MORPH_ELLIPSE, ksize, kpoint);
@@ -1069,25 +1069,25 @@ Matrix::Erode(const v8::Arguments& args) {
     HandleScope scope;
 
     Matrix *self = ObjectWrap::Unwrap<Matrix>(args.This());
-    Local<Object> array = args[0]->ToObject();
-    Local<Value> x = array->Get(0);
-    Local<Value> y = array->Get(1);
-    if (!x->IsNumber() || !y->IsNumber()) {
+    Local<Object> array0 = args[0]->ToObject();
+    Local<Value> x0 = array0->Get(0);
+    Local<Value> y0 = array0->Get(1);
+    if (!x0->IsNumber() || !y0->IsNumber()) {
       return ThrowException(Exception::TypeError(String::New(
-          '"ksize must be an array of two values'
+          "'ksize' must be an array of two values"
         )));
     }
-    cv::Size ksize = cv::Size(x->NumberValue() ,y->NumberValue());
+    cv::Size ksize = cv::Size(x0->NumberValue(), y0->NumberValue());
 
-    Local<Object> array = args[1]->ToObject();
-    Local<Value> x = array->Get(0);
-    Local<Value> y = array->Get(1);
-    if (!x->IsNumber() || !y->IsNumber()) {
+    Local<Object> array1 = args[1]->ToObject();
+    Local<Value> x1 = array1->Get(0);
+    Local<Value> y1 = array1->Get(1);
+    if (!x1->IsNumber() || !y1->IsNumber()) {
       return ThrowException(Exception::TypeError(String::New(
-          '"kpoint must be an array of two values'
+          "'kpoint' must be an array of two values"
         )));
     }
-    cv::Point kpoint = cv::Point(x->NumberValue() ,y->NumberValue());
+    cv::Point kpoint = cv::Point(x1->NumberValue(), y1->NumberValue());
 
 
     cv::Mat structElem = cv::getStructuringElement(cv::MORPH_ERODE, ksize, kpoint);

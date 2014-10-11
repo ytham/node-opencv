@@ -2,6 +2,7 @@
 #include "Point.h"
 #include "Matrix.h"
 #include "FeatureMatcher.h"
+#include "BoundaryFinder.h"
 #include "CascadeClassifierWrap.h"
 #include "VideoCaptureWrap.h"
 #include "Contours.h"
@@ -17,10 +18,11 @@ init(Handle<Object> target) {
     Point::Init(target);
     Matrix::Init(target);
     FeatureMatcher::Init(target);
+    BoundaryFinder::Init(traget);
     CascadeClassifierWrap::Init(target);
     VideoCaptureWrap::Init(target);
     Contour::Init(target);
-	  TrackedObject::Init(target);
+	TrackedObject::Init(target);
     NamedWindow::Init(target);
 
    #if CV_MAJOR_VERSION >= 2 && CV_MINOR_VERSION >=4
